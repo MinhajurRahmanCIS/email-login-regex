@@ -7,16 +7,30 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 
 const UserProfile = () => {
+    //Getting current logged user info from context API
     const { user, loading, logout } = useContext(AuthContext);
+
     console.log(user);
+
+    //navigate to login page.
     const navigate = useNavigate();
+
+    //Handling user to logout.
     const handelLogout = () => {
+
+        //getting logout from context API.
         logout()
             .then(() => {
+                
+                //navigate to root(login).
                 navigate('/');
+
+                //Showing a message with toaster.
                 toast.success('logout Successfully');
             })
-            .catch()
+            .catch(err => {
+                console.log(err.message);
+            })
     }
     return (
         <Card className='container d-flex flex-md-column flex-lg-row justify-content-center align-items-center mt-5 w-50 h-50'>

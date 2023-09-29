@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import UserProfile from './components/UserProfile/UserProfile';
 import AuthProvider from './providers/AuthProvider';
 
-
+//setting routes. 
 const router = createBrowserRouter([
   {
     path: '/',

@@ -12,31 +12,57 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 
 const Register = () => {
+    //Using context api to pass user given data to AuthProvider.
     const { createUser, emailVerification, profileUpdate } = useContext(AuthContext);
+
+    //Setting errors if any error occurs;
     const [error, setError] = useState('');
+
+    //Setting success if register successfully done.
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
 
+    //Taking user data from user input filed(form).
     const handelRegister = event => {
+
+        //Using prevent Default to stop refreshing page.When clicking on register button.
         event.preventDefault();
+
+        //Taking the event.target as form. To use it in short.
         const form = event.target;
+
+        //Taking name from user name input field.
         const name = form.name.value;
+
+        //Taking img URL from image url input field.
         const img = form.img.value;
+
+        //Taking email address from email input field.
         const email = form.email.value;
+
+        //Taking password value from password input field.
         const password = form.password.value;
+
+        //set success as empty.
         setSuccess('');
+
+        //set error as empty.
         setError('');
+
+        //Using regex for name validation.
         if (/(?=.*[!@#$&*])/.test(name)) {
             setError('You cannot use Special character on name');
             return
         }
 
+
+        //Using regex for email validation.
         if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
             setError('Please use valid Email!');
             return
         }
 
-
+        //Using regex for password validation.
         if (!/(?=.*[A-Z])/.test(password)) {
             setError('Please add a uppercase letter');
             return
@@ -58,32 +84,51 @@ const Register = () => {
             return
         }
 
+        //getting createUser from context API and sending email & password. 
         createUser(email, password)
             .then(result => {
+
+                //taking user in loggedUser;
                 const loggedUser = result.user;
                 console.log(loggedUser);
+
+                //getting emailVerification from context API to verify email address.
                 emailVerification()
                     .then(result => {
+
+                        //Showing a message with toaster.
                         toast('Check your Email to verify your Account!', {
                             icon: '⚠️'
                         });
                     })
                     .catch(err => {
                         console.log(err);
+
+                       //If error occur setting the error message on error state.
                         setError(err.message);
                     })
+
+                    //getting profile update from context API and setting user name and image.
                 profileUpdate(name, img)
                     .then(() => {
+
+                        //Showing success state message.
                         setSuccess('Account Registered!');
+
+                        //navigate to userProfile page.
                         navigate('/userProfile');
                     })
                     .catch(err => {
                         console.log(err.message);
                     })
+
+                    //After clicking on register form input user data will be removed.
                 form.reset();
             })
             .catch(err => {
                 console.log(err);
+
+                //If error occur setting the error message on error state.
                 setError(err.message);
             })
     }
@@ -121,7 +166,7 @@ const Register = () => {
                             <span className='d-flex'>Already Have Account!<Link className='ms-1 text-success' to='/'> Login Here</Link> </span>
                         </Form.Text>
                         <Button className='w-100 mt-2 btn btn-success' variant="primary" type="submit">
-                            Submit
+                            Register
                         </Button>
 
                         <p className='text-success text-center mt-2'>{success}</p>

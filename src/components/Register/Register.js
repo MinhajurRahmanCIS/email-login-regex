@@ -94,7 +94,7 @@ const Register = () => {
                 <Col className='container d-flex justify-content-center align-items-center'>
                     <img className='img-fluid' src={RegisterImg} alt="loginImage" />
                 </Col>
-                <Col className='container d-flex justify-content-center align-items-center'>
+                <Col className='container d-flex justify-content-center align-items-center m-5'>
                     <Form onSubmit={handelRegister} className='border rounded-4 p-5 border-success-subtle'>
                         <h1 className='text-success'>Please Register!</h1>
 

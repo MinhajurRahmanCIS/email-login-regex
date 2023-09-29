@@ -28,12 +28,12 @@ const UserProfile = () => {
                     </div>
                     :
                     <>
-                        <Card.Img className='img-fluid w-50 h-25 rounded' variant="top" src={user === null ? '' : user.photoURL} />
+                        <Card.Img className='img-fluid w-50 h-25 rounded' variant="top" src={user.photoURL} />
                         <Card.Body>
-                            <Card.Title>{user === null ? '' : user.displayName}</Card.Title>
-                            <p className='pt-0'><b>Email</b>: <span className='text-success'>{user === null ? '' : user.email}</span></p>
-                            <p className='pt-0'><b>Account</b> : {user === null ? '' : user.emailVerified === false ? <span className='text-danger'>Not Verified</span> : <span className='text-success'>Verified</span>}</p>
-                            <p><b>Account Creation</b> : <span className='text-primary'>{user === null ? '' : user.metadata.creationTime}</span></p>
+                            <Card.Title>{user.displayName}</Card.Title>
+                            <p className='pt-0'><b>Email</b>: <span className='text-success'>{user.email}</span></p>
+                            <p className='pt-0'><b>Account</b> : {user.emailVerified === false ? <span className='text-danger'>Not Verified</span> : <span className='text-success'>Verified</span>}</p>
+                            <p><b>Account Creation</b> : <span className='text-primary'>{user.metadata.creationTime}</span></p>
                             <Link onClick={handelLogout} to='/' className='btn btn-primary text-white text-decoration-none'>Logout</Link>
                         </Card.Body>
                     </>

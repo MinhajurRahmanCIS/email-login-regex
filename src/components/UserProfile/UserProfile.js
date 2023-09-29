@@ -35,7 +35,7 @@ const UserProfile = () => {
                             <p className='pt-0'><b>Email</b>: <span className='text-success'>{user.email}</span></p>
                             <p className='pt-0'><b>Account</b> : {user.emailVerified === false ? <span className='text-danger'>Not Verified</span> : <span className='text-success'>Verified</span>}</p>
                             <p><b>Account Creation</b> : <span className='text-primary'>{user.metadata.creationTime}</span></p>
-                            <Link onClick={handelLogout} to='/' className='btn btn-primary text-white text-decoration-none'>Logout</Link>
+                            <Link onClick={handelLogout} to='/' className='btn btn-danger text-white text-decoration-none'>Logout</Link>
                         </Card.Body>
                     </>
             }

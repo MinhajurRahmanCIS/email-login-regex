@@ -8,6 +8,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 const UserProfile = () => {
     const { user, loading, logout } = useContext(AuthContext);
+    console.log(user);
     const navigate = useNavigate();
     const handelLogout = () => {
         logout()

@@ -12,17 +12,19 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 
 const Register = () => {
-    //Using context api to pass user given data to AuthProvider.
+    //Using context API to get createUser, emailVerification and profileUpdate from AuthProvider.
     const { createUser, emailVerification, profileUpdate } = useContext(AuthContext);
 
-    //Setting errors if any error occurs;
+    //Using useState to store errors.
     const [error, setError] = useState('');
 
     //Setting success if register successfully done.
     const [success, setSuccess] = useState('');
+
+    //using useNavigate to navigate to other page.
     const navigate = useNavigate();
 
-    //Taking user data from user input filed(form).
+    //Taking user data from form when click on register.
     const handelRegister = event => {
 
         //Using prevent Default to stop refreshing page.When clicking on register button.
@@ -84,7 +86,7 @@ const Register = () => {
             return
         }
 
-        //getting createUser from context API and sending email & password. 
+        //getting createUser from context API. 
         createUser(email, password)
             .then(result => {
 
@@ -92,7 +94,7 @@ const Register = () => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
 
-                //getting emailVerification from context API to verify email address.
+                //getting emailVerification from context API.
                 emailVerification()
                     .then(result => {
 
@@ -104,15 +106,15 @@ const Register = () => {
                     .catch(err => {
                         console.log(err);
 
-                       //If error occur setting the error message on error state.
+                        //If error occur setting the error message on error state.
                         setError(err.message);
                     })
 
-                    //getting profile update from context API and setting user name and image.
+                //getting profile update from context API.
                 profileUpdate(name, img)
                     .then(() => {
 
-                        //Showing success state message.
+                        //Showing success message in state.
                         setSuccess('Account Registered!');
 
                         //navigate to userProfile page.
@@ -122,7 +124,7 @@ const Register = () => {
                         console.log(err.message);
                     })
 
-                    //After clicking on register form input user data will be removed.
+                //After clicking on register button user inputted data will be clear from input field.
                 form.reset();
             })
             .catch(err => {

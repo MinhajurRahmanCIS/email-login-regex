@@ -11,45 +11,89 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 
 const Login = () => {
+    //Using context API to get login and passwordReset from AuthProvider.
     const { login, passwordReset } = useContext(AuthContext);
+
+    //Using useState to store errors.
     const [error, setError] = useState('');
+
+    //Using useState to store success message;
     const [success, setSuccess] = useState('');
+
+    //using useRef to get the email to handel the password reset. 
     const emailRef = useRef();
+
+    //using useNavigate to navigate to other page.
     const navigate = useNavigate();
 
+    //Taking user email and password from form when click on Login.
     const handelRegister = event => {
+
+        //Using prevent Default to stop refreshing page.When clicking on register button.
         event.preventDefault();
+
+        //Taking the event.target as form. To use it in short.
         const form = event.target;
+
+        //Taking email address from email input field.
         const email = form.email.value;
+
+        //Taking password value from password input field.
         const password = form.password.value;
+
+        //set success as empty.
         setSuccess('');
+
+        //set error as empty.
         setError('');
 
+        //getting login from context API. 
         login(email, password)
             .then(result => {
+
+                //taking user in loggedUser;
                 const loggedUser = result.user;
                 console.log(loggedUser);
+
+                //Showing success message in state.
                 setSuccess('Login Success');
+
+                //navigate to userProfile page.
                 navigate('/userProfile');
+
+                //Showing a message with toaster.
                 toast.success('Login Successful');
+
+                //After clicking on login button input user email password will be clear from input field.
                 form.reset();
             })
             .catch(err => {
                 console.log(err);
+                //If error occur setting the error message on error state.
                 setError(err.message);
             })
     }
+
+    //Taking only user email from when click on reset.
     const resetPassword = event => {
+
+        //taking email from emailRef.
         const email = emailRef.current.value;
+
+        //A condition when user blank the email field and press the reset. 
         if (!email) {
-            alert("Provide Email address to reset password!")
+            alert("Provide Email address to reset password!");
         }
+
+        //getting passwordReset from context API.
         passwordReset(email)
             .then(result => {
-                toast.success('Password Reset !! Check your email')
+                toast.success('Password Reset !! Check your email');
             })
             .catch(err => {
                 console.log(err);
+
+                //If error occur setting the error message on error state.
                 setError(err.message);
             })
     }

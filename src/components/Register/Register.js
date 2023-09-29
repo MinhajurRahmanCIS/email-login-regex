@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -6,14 +6,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useNavigate } from 'react-router-dom';
 import RegisterImg from '../../assets/Register.jpg'
-import app from '../../firebase/firebase.config';
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { GiCrossedBones } from 'react-icons/gi';
 import toast from 'react-hot-toast';
+import { AuthContext } from '../../providers/AuthProvider';
 
-const auth = getAuth(app);
 
 const Register = () => {
+    const { createUser, emailVerification, profileUpdate } = useContext(AuthContext);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
@@ -59,11 +58,11 @@ const Register = () => {
             return
         }
 
-        createUserWithEmailAndPassword(auth, email, password)
+        createUser(email, password)
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
-                sendEmailVerification(auth.currentUser)
+                emailVerification()
                     .then(result => {
                         toast('Check your Email to verify your Account!', {
                             icon: '⚠️'
@@ -73,30 +72,20 @@ const Register = () => {
                         console.log(err);
                         setError(err.message);
                     })
-                handelImage(loggedUser, name, img);
+                profileUpdate(name, img)
+                    .then(() => {
+                        setSuccess('Account Registered!');
+                        navigate('/userProfile');
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
                 form.reset();
             })
             .catch(err => {
                 console.log(err);
                 setError(err.message);
             })
-
-        const handelImage = (loggedUser, name, img) => {
-            updateProfile(loggedUser, {
-                displayName: name,
-                photoURL: img
-            })
-                .then(() => {
-                    setSuccess('Account Registered!');
-
-                    navigate('/userProfile');
-                })
-                .catch(err => {
-                    console.log(err.message);
-                })
-        }
-
-
     }
 
     return (

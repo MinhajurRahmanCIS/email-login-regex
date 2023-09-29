@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -6,12 +6,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useNavigate } from 'react-router-dom';
 import loginImg from '../../assets/Login.jpg'
-import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
-import app from '../../firebase/firebase.config';
 import toast from 'react-hot-toast';
+import { AuthContext } from '../../providers/AuthProvider';
 
-const auth = getAuth(app);
+
 const Login = () => {
+    const { login, passwordReset } = useContext(AuthContext);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const emailRef = useRef();
@@ -25,7 +25,7 @@ const Login = () => {
         setSuccess('');
         setError('');
 
-        signInWithEmailAndPassword(auth, email, password)
+        login(email, password)
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
@@ -41,12 +41,12 @@ const Login = () => {
     }
     const resetPassword = event => {
         const email = emailRef.current.value;
-        if(!email){
+        if (!email) {
             alert("Provide Email address to reset password!")
         }
-        sendPasswordResetEmail(auth, email)
+        passwordReset(email)
             .then(result => {
-                alert('Password Reset !! Check your email')
+                toast.success('Password Reset !! Check your email')
             })
             .catch(err => {
                 console.log(err);

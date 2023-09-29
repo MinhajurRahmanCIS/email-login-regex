@@ -15,5 +15,5 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-//Exporting firebase configure (app) to use in AuthContext
+//Exporting firebase configure (app) to use in AuthContext.
 export default app;
